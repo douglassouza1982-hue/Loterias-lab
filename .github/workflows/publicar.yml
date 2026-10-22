@@ -1,0 +1,54 @@
+name: Atualizar resultados e publicar
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Sorteios saem por volta das 20h–21h (Brasília). Horários em UTC.
+    - cron: '45 0 * * *'   # 21h45
+    - cron: '30 2 * * *'   # 23h30
+    - cron: '0 12 * * *'   # 9h, repescagem
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Baixar concursos novos
+        continue-on-error: true   # se as fontes falharem, o site é publicado mesmo assim
+        run: node scripts/atualizar-dados.mjs
+      - name: Salvar no repositório
+        run: |
+          if [ -n "$(git status --porcelain web/data)" ]; then
+            git config user.name "robo-resultados"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add web/data
+            git commit -m "Resultados atualizados em $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+
+  publicar:
+    needs: atualizar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

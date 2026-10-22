@@ -1,0 +1,6 @@
+dist/
+dados/
+node_modules/
+.DS_Store
+supabase/.temp/
+supabase/.branches/

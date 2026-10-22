@@ -1,0 +1,14 @@
+project_id = "loterias-lab"
+
+[functions.gerar]
+verify_jwt = true
+
+[functions.assinar]
+verify_jwt = true
+
+[functions.cancelar]
+verify_jwt = true
+
+# O Mercado Pago não envia token do Supabase; a autenticidade é conferida pela assinatura x-signature.
+[functions.mp-webhook]
+verify_jwt = false
