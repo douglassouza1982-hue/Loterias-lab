@@ -17,7 +17,7 @@ Enquanto `web/config.js` estiver vazio, o site funciona em **modo demonstração
    supabase functions deploy mp-webhook --no-verify-jwt
    ```
 3. Em **Project Settings → API**, copie a *Project URL* e a chave *anon public* para `web/config.js` e faça commit.
-4. Em **Authentication → URL Configuration**: *Site URL* = `https://douglassouza1982-hue.github.io/loterias-lab/`
+4. Em **Authentication → URL Configuration**: *Site URL* = `https://douglassouza1982-hue.github.io/Loterias-lab/`
    e adicione a mesma URL em *Redirect URLs*.
 5. Em **Authentication → Providers → Email**: deixe "Confirm email" ligado (recomendado).
 6. Em **Authentication → Email Templates**, traduza os e-mails para português (opcional, recomendado).
@@ -38,7 +38,7 @@ Enquanto `web/config.js` estiver vazio, o site funciona em **modo demonstração
 4. Grave os segredos nas funções:
    ```bash
    supabase secrets set MP_ACCESS_TOKEN=APP_USR-... MP_WEBHOOK_SECRET=... \
-     SITE_URL=https://douglassouza1982-hue.github.io/loterias-lab/
+     SITE_URL=https://douglassouza1982-hue.github.io/Loterias-lab/
    ```
 5. Teste com usuários de teste do Mercado Pago: assine, confira em *Minha conta* que o plano virou "Assinante", cancele.
 
